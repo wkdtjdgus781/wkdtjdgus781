@@ -1,52 +1,57 @@
-document.getElementById('images').addEventListener('change', function(event) {
-    const fileInput = event.target;
-    const imageNamesContainer = document.getElementById('imageNames');
-    imageNamesContainer.innerHTML = '';
+let imageCounter = 1;
 
-    const files = fileInput.files;
-    if (files.length > 5) {
+document.getElementById('addImageBtn').addEventListener('click', function() {
+    if (imageCounter >= 5) {
         alert('사진은 최대 5개까지 업로드할 수 있습니다.');
-        fileInput.value = ''; // 파일 입력 초기화
         return;
     }
 
-    for (let i = 0; i < files.length; i++) {
-        const label = document.createElement('label');
-        label.textContent = `사진 ${i + 1} 이름:`;
+    const imageUploadSection = document.getElementById('imageUploadSection');
 
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.name = `imageName${i + 1}`;
-        input.required = true;
+    const label = document.createElement('label');
+    label.setAttribute('for', `images${imageCounter}`);
+    label.textContent = `사진 ${imageCounter + 1}:`;
 
-        imageNamesContainer.appendChild(label);
-        imageNamesContainer.appendChild(input);
-    }
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.id = `images${imageCounter}`;
+    fileInput.name = 'images';
+    fileInput.accept = '.jpg';
+    fileInput.required = true;
+
+    const textInput = document.createElement('input');
+    textInput.type = 'text';
+    textInput.name = `imageName${imageCounter}`;
+    textInput.placeholder = '사진 이름';
+    textInput.required = true;
+
+    imageUploadSection.appendChild(label);
+    imageUploadSection.appendChild(fileInput);
+    imageUploadSection.appendChild(textInput);
+
+    imageCounter++;
 });
 
 document.getElementById('docForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const title = document.getElementById('title').value;
-    const files = document.getElementById('images').files;
-    const imageNames = Array.from(document.querySelectorAll('#imageNames input')).map(input => input.value);
+    const files = document.querySelectorAll('input[type="file"]');
+    const imageNames = document.querySelectorAll('input[type="text"]');
 
-    if (files.length === 0 || imageNames.length !== files.length) {
-        alert('모든 필드를 입력해주세요.');
-        return;
-    }
+    const content = [{ type: "title", text: title }];
+
+    files.forEach((fileInput, index) => {
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const imageName = imageNames[index].value;
+
+            content.push({ type: "image", name: imageName, image: file });
+        }
+    });
 
     const zip = new PizZip();
     const doc = new window.docxtemplater(zip);
-
-    const content = [
-        {type: "title", text: title},
-        ...imageNames.map((name, index) => ({
-            type: "image",
-            name: name,
-            image: files[index]
-        }))
-    ];
 
     const docContent = generateDocxContent(content);
 
