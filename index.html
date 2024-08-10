@@ -13,13 +13,13 @@
             <label for="title">제목:</label>
             <input type="text" id="title" name="title" required>
 
-            <label for="images">사진들 (최대 5개):</label>
-            <input type="file" id="images" name="images" accept=".jpg" multiple required>
-
-            <div id="imageNames">
-                <!-- 사진명 입력 필드가 여기에 추가됩니다 -->
+            <div id="imageUploadSection">
+                <label for="images0">사진 1:</label>
+                <input type="file" id="images0" name="images" accept=".jpg" required>
+                <input type="text" name="imageName0" placeholder="사진 이름" required>
             </div>
 
+            <button type="button" id="addImageBtn">사진 추가</button>
             <button type="submit">DOCX 파일 생성</button>
         </form>
     </div>
