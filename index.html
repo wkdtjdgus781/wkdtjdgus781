@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>블로그 게시글 생성</title>
+    <title>Docx 파일 생성기</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>블로그 게시글 생성</h1>
+        <h1>Docx 파일 생성기</h1>
         <form id="docForm">
             <label for="title">제목:</label>
             <input type="text" id="title" name="title" required>
 
             <div id="imageUploadSection">
-                <label for="images0">사진 1:</label>
-                <input type="file" id="images0" name="images" accept=".jpg" required>
-                <input type="text" name="imageName0" placeholder="사진 이름" required>
+                <div class="image-upload">
+                    <label for="images0">사진 1:</label>
+                    <input type="file" id="images0" name="images" accept=".jpg" required>
+                    <input type="text" name="imageName0" placeholder="사진 이름" required>
+                    <img id="preview0" class="preview" src="" alt="미리보기" style="display: none;">
+                </div>
             </div>
 
             <button type="button" id="addImageBtn">사진 추가</button>
             <button type="submit">DOCX 파일 생성</button>
         </form>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.0.1/pizzip.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.21.0/docxtemplater.js"></script>
-    <script src="script.js"></script>
+
 </body>
 </html>
